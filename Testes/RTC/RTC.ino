@@ -8,7 +8,9 @@
  
 //Modulo RTC DS1307 ligado as portas A4 e A5 do Arduino 
 DS1307 rtc(SDA, SCL);//SDA, SCL
- 
+Time t;
+int aHour = aMin = 1;
+
 void setup()
 {
   Serial.begin(9600);
@@ -32,6 +34,7 @@ void setup()
 void loop()
 {
   //Mostra as informações no Serial Monitor
+  /*
   Serial.print("Hora : ");
   Serial.print(rtc.getTimeStr());
   Serial.print(" ");
@@ -39,7 +42,14 @@ void loop()
   Serial.print(rtc.getDateStr());
   Serial.print(" ");
   Serial.println(rtc.getDOWStr());
-   
+  */
+  t = rtc.getTime();
+  
+  if(t.hour > aHour){
+    if(t.min > aMin){
+      Serial.println("Alarme");
+    }   
+  }
   //Aguarda 1 segundo e repete o processo
   delay (1000);
 }
