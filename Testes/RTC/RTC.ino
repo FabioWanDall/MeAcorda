@@ -1,21 +1,27 @@
-//Programa : Relogio com modulo RTC DS1307
+/* Programa : Relogio com modulo RTC DS1307
+ * O RTC fica posicionado com os ponis SQW e 32K 
+ * soltos, ao lado do pino A5.
+ */
  #define  GND   A2
  #define  VCC   A3
  #define  SDA   A4
  #define  SCL   A5
+
 //Carrega a biblioteca do RTC DS1307
 #include <DS1307.h>
  
 //Modulo RTC DS1307 ligado as portas A4 e A5 do Arduino 
 DS1307 rtc(SDA, SCL);//SDA, SCL
+
 Time t;
-int aHour = aMin = 1;
+int aHour = 21;
+int aMin = 59;
 
 void setup()
 {
   Serial.begin(9600);
   while(!Serial){;}
-  Serial.print("Oieee");
+  Serial.println("Oieee");
 
   pinMode(GND, OUTPUT);
   pinMode(VCC, OUTPUT);
@@ -43,13 +49,14 @@ void loop()
   Serial.print(" ");
   Serial.println(rtc.getDOWStr());
   */
+  Serial.println(rtc.getTimeStr());
   t = rtc.getTime();
-  
-  if(t.hour > aHour){
-    if(t.min > aMin){
+
+  if(t.hour == aHour){
+    if(t.min == aMin){
       Serial.println("Alarme");
     }   
   }
-  //Aguarda 1 segundo e repete o processo
-  delay (1000);
+  //Aguarda x segundo e repete o processo
+  delay (10000);
 }
